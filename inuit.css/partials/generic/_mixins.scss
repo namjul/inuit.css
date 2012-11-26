@@ -83,3 +83,113 @@
     overflow:hidden;
     text-overflow:ellipsis;
 }
+
+
+/**
+ * CSS arrows!!! But... before you read on, you might want to grab a coffee...
+ * 
+ * This mixin creates a CSS arrow on a given element. We can have the arrow
+ * appear in one of 12 locations, thus:
+ * 
+ *  +--01----02----03--+
+ * 12                 04
+ *  |                  |
+ * 11                 05
+ *  |                  |
+ * 10                 06
+ *  +--09----08----07--+
+ * 
+ * You pass this position in along with a desired arrow color and optional
+ * border color, for example:
+ * 
+ * `@include arrow(6, red)`
+ * 
+ * for just a single, red arrow, or:
+ * 
+ * `@include arrow(6, red, black)`
+ * 
+ * which will create a red triangle with a black border which sits at the bottom
+ * right of the element. Call the mixin thus: 
+ * 
+   .foo{
+       background-color:#BADA55;
+       border:1px solid #ACE;
+       @include arrow(6, #BADA55, #ACE);
+   }
+ * 
+ */
+@mixin arrow($arrow-position, $arrow-color, $border-color: $arrow-color){
+    
+    @if $arrow-position <= 12 {
+        
+        @if $arrow-position == 1 or $arrow-position == 2 or $arrow-position == 3 {
+            @extend %arrow--top;
+            
+            &:before{
+                border-bottom-color:$border-color;
+            }
+            &:after{
+                border-bottom-color:$arrow-color;
+            }
+        }
+        
+        @if $arrow-position == 4 or $arrow-position == 5 or $arrow-position == 6 {
+            @extend %arrow--far;
+            
+            &:before{
+                border-left-color:$border-color;
+            }
+            &:after{
+                border-left-color:$arrow-color;
+            }
+        }
+        
+        @if $arrow-position == 7 or $arrow-position == 8 or $arrow-position == 9 {
+            @extend %arrow--bottom;
+            
+            &:before{
+                border-top-color:$border-color;
+            }
+            &:after{
+                border-top-color:$arrow-color;
+            }
+        }
+        
+        @if $arrow-position == 10 or $arrow-position == 11 or $arrow-position == 12 {
+            @extend %arrow--near;
+            
+            &:before{
+                border-right-color:$border-color;
+            }
+            &:after{
+                border-right-color:$arrow-color;
+            }
+        }
+        
+        @if $arrow-position == 1 or $arrow-position == 9 {
+            @extend %arrow--left;
+        }
+        
+        @if $arrow-position == 2 or $arrow-position == 8 {
+            @extend %arrow--center;
+        }
+        
+        @if $arrow-position == 3 or $arrow-position == 7 {
+            @extend %arrow--right;
+        }
+        
+        @if $arrow-position == 10 or $arrow-position == 6 {
+            @extend %arrow--lower;
+        }
+        
+        @if $arrow-position == 11 or $arrow-position == 5 {
+            @extend %arrow--middle;
+        }
+        
+        @if $arrow-position == 12 or $arrow-position == 4 {
+            @extend %arrow--upper;
+        }
+        
+    }
+    
+}
